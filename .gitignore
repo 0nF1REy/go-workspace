@@ -63,3 +63,13 @@ nbdist/
 # ================================
 Thumbs.db
 Desktop.ini
+
+# ================================
+# Go build artifacts (CLI binaries)
+# ================================
+src/cmd/examples/**/main
+src/cmd/examples/**/main.exe
+src/cmd/main/main
+src/cmd/main/main.exe
+src/services/**/main
+src/services/**/main.exe
