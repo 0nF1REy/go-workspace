@@ -11,11 +11,16 @@ import (
 	"github.com/0nF1REy/go-workspace/internal/slices"
 	"github.com/0nF1REy/go-workspace/internal/structs"
 	"github.com/0nF1REy/go-workspace/internal/types"
+	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	reader := bufio.NewReader(os.Stdin)
+// menu recebe boolean para ativar ou não
+func menu(enable bool) {
+	if !enable {
+		return
+	}
 
+	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Println("\n=== CLI Interativo Go Workspace ===")
 		fmt.Println("1 - Tipos básicos")
@@ -47,4 +52,30 @@ func main() {
 			fmt.Println("Opção inválida, tente novamente.")
 		}
 	}
+}
+
+// ginServer recebe boolean para ativar ou não
+func ginServer(enable bool) {
+	if !enable {
+		return
+	}
+
+	server := gin.Default()
+	server.GET("/ping", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
+	server.Run(":8000")
+}
+
+// Função central que decide o que vai rodar
+func runApp(menuEnabled bool, ginEnabled bool) {
+	menu(menuEnabled)
+	ginServer(ginEnabled)
+}
+
+func main() {
+	runApp(false, true)
 }
