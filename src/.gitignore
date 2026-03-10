@@ -63,3 +63,18 @@ nbdist/
 # ================================
 Thumbs.db
 Desktop.ini
+
+# ================================
+# Go build artifacts (CLI binaries)
+# ================================
+cmd/examples/**/main
+cmd/examples/**/main.exe
+cmd/main/main
+cmd/main/main.exe
+services/**/main
+services/**/main.exe
+
+# ================================
+# Environment files
+# ================================
+.env
