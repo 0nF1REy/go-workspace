@@ -33,10 +33,27 @@ func loadDotEnv() error {
 		candidates = append(candidates, filepath.Join(ws, ".env"))
 	}
 
-	// 3) Works with `go run` from project root.
+	// 3) Bazel runfiles directory in Linux/macOS.
+	if runfilesDir := os.Getenv("RUNFILES_DIR"); runfilesDir != "" {
+		candidates = append(candidates,
+			filepath.Join(runfilesDir, "_main", ".env"),
+			filepath.Join(runfilesDir, "go_workspace", ".env"),
+		)
+	}
+
+	// 4) Bazel runfiles next to executable.
+	if exe, err := os.Executable(); err == nil {
+		runfilesBase := exe + ".runfiles"
+		candidates = append(candidates,
+			filepath.Join(runfilesBase, "_main", ".env"),
+			filepath.Join(runfilesBase, "go_workspace", ".env"),
+		)
+	}
+
+	// 5) Works with `go run` from project root.
 	candidates = append(candidates, ".env")
 
-	// 4) Fallback to source-relative lookup.
+	// 6) Fallback to source-relative lookup.
 	_, b, _, ok := runtime.Caller(0)
 	if ok {
 		basepath := filepath.Dir(b)

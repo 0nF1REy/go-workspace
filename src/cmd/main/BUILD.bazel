@@ -5,6 +5,7 @@ go_binary(
     embed = [":main_lib"],
     importpath = "github.com/0nF1REy/go-workspace/cmd/main",
     visibility = ["//visibility:public"],
+    data = ["//:.env"],
 )
 
 go_library(
