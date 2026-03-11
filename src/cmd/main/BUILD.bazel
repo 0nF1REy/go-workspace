@@ -2,10 +2,10 @@ load("@rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_binary(
     name = "main",
+    data = ["//:.env"],
     embed = [":main_lib"],
     importpath = "github.com/0nF1REy/go-workspace/cmd/main",
     visibility = ["//visibility:public"],
-    data = ["//:.env"],
 )
 
 go_library(

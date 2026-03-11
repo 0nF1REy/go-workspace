@@ -1,0 +1,21 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  cmd = "bazel build //cmd/main"
+  entrypoint = "./bazel-bin/cmd/main/main_/main"
+  include_ext = ["go"]
+  include_dir = ["cmd", "internal", "projects", "services"]
+  exclude_dir = ["bazel-bin", "bazel-out", "bazel-*", "vendor", ".git", ".idea", "assets", "tmp"]
+  exclude_file = []
+  delay = 1000
+  stop_on_error = true
+
+[color]
+  main = "magenta"
+  watcher = "cyan"
+  build = "yellow"
+  runner = "green"
+
+[log]
+  time = false

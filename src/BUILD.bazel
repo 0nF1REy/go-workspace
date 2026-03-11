@@ -3,5 +3,5 @@ load("@gazelle//:def.bzl", "gazelle")
 gazelle(name = "gazelle")
 
 exports_files([
-	".env",
+    ".env",
 ])

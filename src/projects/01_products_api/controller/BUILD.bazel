@@ -6,8 +6,8 @@ go_library(
     importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/controller",
     visibility = ["//visibility:public"],
     deps = [
-        "//projects/01_products_api/usecase",
         "//projects/01_products_api/model",
+        "//projects/01_products_api/usecase",
         "@com_github_gin_gonic_gin//:gin",
     ],
 )

@@ -84,6 +84,11 @@ bazel-testlogs/
 .bazel
 .bazelrc.user
 
+# ======================
+# Artefatos temporários
+# ======================
+tmp/
+
 # ================================
 # Environment files
 # ================================
