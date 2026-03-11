@@ -32,7 +32,7 @@ func Projects(enable bool) {
 		switch input {
 		case "1":
 			fmt.Println("Iniciando API de Produtos...")
-			products_api.StartServer()
+			products_api.StartAPI()
 			return
 		case "0":
 			fmt.Println("Saindo do menu Projects...")

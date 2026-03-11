@@ -2,24 +2,36 @@ package products_api
 
 import (
 	"github.com/0nF1REy/go-workspace/projects/01_products_api/controller"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/db"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/repository"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/usecase"
 	"github.com/gin-gonic/gin"
 )
 
-func Server() {
-	ProductController := controller.NewProductController()
-
+func RunAPI() {
 	server := gin.Default()
 
-	// Rota de teste
-	server.GET("/ping", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "pong",
-		})
+	dbConnection, err := db.ConnectDB()
+	if err != nil {
+		panic(err)
+	}
+
+	// Camada de repository
+	productRepo := repository.NewProductRepository(dbConnection)
+
+	// Camada usecase
+	productUsecase := usecase.NewProductUseCase(productRepo)
+
+	// Camada de controllers
+	productController := controller.NewProductController(productUsecase)
+
+	api := server.Group("/api/v1")
+
+	api.GET("/ping", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{"message": "pong"})
 	})
 
-	// Rota de produtos
-	server.GET("/products", ProductController.GetProducts)
+	api.GET("/products", productController.GetProducts)
 
-	// Inicia o servidor na porta 8000
 	server.Run(":8000")
 }

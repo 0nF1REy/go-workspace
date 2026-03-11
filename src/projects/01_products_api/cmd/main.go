@@ -1,5 +1,5 @@
 package products_api
 
-func StartServer() {
-	Server()
+func StartAPI() {
+	RunAPI()
 }
