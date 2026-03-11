@@ -8,7 +8,7 @@ help:
 	@echo "  make deps-sync   - Sincroniza dependências Go e Bazel (go mod tidy + bazel mod tidy + gazelle)"
 	@echo "  make gazelle     - Executa o gerador de código do Bazel (gazelle)"
 	@echo "  make build       - Compila a aplicação"
-	@echo "  make dev         - Executa com hot reload (Air + Bazel + DB check)"
+	@echo "  make dev         - Executa API direto com hot reload (Air + Bazel + DB check)"
 	@echo "  make prod        - Executa em modo interativo (menu)"
 	@echo "  make start       - Workflow completo: deps-sync, build e prod"
 	@echo "  make db-up       - Inicia o banco de dados PostgreSQL"

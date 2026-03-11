@@ -2,8 +2,8 @@ root = "."
 tmp_dir = "tmp"
 
 [build]
-  cmd = "bazel build //cmd/main"
-  entrypoint = "./bazel-bin/cmd/main/main_/main"
+  cmd = "bazel build //cmd/dev"
+  entrypoint = "./bazel-bin/cmd/dev/dev_/dev"
   include_ext = ["go"]
   include_dir = ["cmd", "internal", "projects", "services"]
   exclude_dir = ["bazel-bin", "bazel-out", "bazel-*", "vendor", ".git", ".idea", "assets", "tmp"]

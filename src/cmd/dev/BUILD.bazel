@@ -1,0 +1,16 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_binary(
+    name = "dev",
+    data = ["//:.env"],
+    embed = [":dev_lib"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/dev",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "dev_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/dev",
+    deps = ["//projects/01_products_api/cmd"],
+)
