@@ -1,0 +1,21 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "menu",
+    srcs = [
+        "examples.go",
+        "internal.go",
+        "menu.go",
+        "projects.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/menu",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//internal/control",
+        "//internal/functions",
+        "//internal/slices",
+        "//internal/structs",
+        "//internal/types",
+        "//projects/01_products_api/cmd",
+    ],
+)

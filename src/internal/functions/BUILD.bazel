@@ -1,0 +1,8 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "functions",
+    srcs = ["functions.go"],
+    importpath = "github.com/0nF1REy/go-workspace/internal/functions",
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_binary(
+    name = "main",
+    embed = [":05_empty_lib"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/09_interfaces/05_empty",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "05_empty_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/09_interfaces/05_empty",
+    visibility = ["//visibility:private"],
+)

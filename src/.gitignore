@@ -75,6 +75,16 @@ services/**/main
 services/**/main.exe
 
 # ================================
+# Bazel: build - local cache
+# ================================
+bazel-*
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+.bazel
+.bazelrc.user
+
+# ================================
 # Environment files
 # ================================
 .env

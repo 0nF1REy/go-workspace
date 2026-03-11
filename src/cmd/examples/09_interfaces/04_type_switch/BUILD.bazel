@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_binary(
+    name = "main",
+    embed = [":04_type_switch_lib"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/09_interfaces/04_type_switch",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "04_type_switch_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/09_interfaces/04_type_switch",
+    visibility = ["//visibility:private"],
+)

@@ -1,0 +1,16 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_binary(
+    name = "ping_api",
+    embed = [":ping-api_lib"],
+    importpath = "github.com/0nF1REy/go-workspace/services/ping-api",
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "ping-api_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/services/ping-api",
+    visibility = ["//visibility:private"],
+    deps = ["//services/ping-api/routes"],
+)

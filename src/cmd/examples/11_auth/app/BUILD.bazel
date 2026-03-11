@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "app",
+    srcs = [
+        "auth.go",
+        "session.go",
+        "user.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/11_auth/app",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@org_golang_x_crypto//bcrypt",
+    ],
+)

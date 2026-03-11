@@ -20,15 +20,40 @@ var (
 	DB   string
 )
 
+func loadDotEnv() error {
+	var candidates []string
+
+	// 1) Allow explicit override for local testing/CI.
+	if envFile := os.Getenv("APP_ENV_FILE"); envFile != "" {
+		candidates = append(candidates, envFile)
+	}
+
+	// 2) Works reliably with `bazel run`.
+	if ws := os.Getenv("BUILD_WORKSPACE_DIRECTORY"); ws != "" {
+		candidates = append(candidates, filepath.Join(ws, ".env"))
+	}
+
+	// 3) Works with `go run` from project root.
+	candidates = append(candidates, ".env")
+
+	// 4) Fallback to source-relative lookup.
+	_, b, _, ok := runtime.Caller(0)
+	if ok {
+		basepath := filepath.Dir(b)
+		candidates = append(candidates, filepath.Join(basepath, "../../../.env"))
+	}
+
+	for _, path := range candidates {
+		if _, err := os.Stat(path); err == nil {
+			return godotenv.Load(path)
+		}
+	}
+
+	return fmt.Errorf(".env not found in known locations")
+}
+
 func init() {
-	// Detecta o diretório do arquivo conn.go
-	_, b, _, _ := runtime.Caller(0)
-	basepath := filepath.Dir(b)
-
-	// Caminho do .env relativo a este arquivo
-	envPath := filepath.Join(basepath, "../../../.env")
-
-	err := godotenv.Load(envPath)
+	err := loadDotEnv()
 	if err != nil {
 		log.Println("Aviso: não foi possível carregar o .env, usando variáveis de ambiente do sistema")
 	}

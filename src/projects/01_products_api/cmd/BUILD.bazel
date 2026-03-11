@@ -1,0 +1,18 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cmd",
+    srcs = [
+        "main.go",
+        "server.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/cmd",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//projects/01_products_api/controller",
+        "//projects/01_products_api/db",
+        "//projects/01_products_api/repository",
+        "//projects/01_products_api/usecase",
+        "@com_github_gin_gonic_gin//:gin",
+    ],
+)

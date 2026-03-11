@@ -1,0 +1,11 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "structs",
+    srcs = [
+        "model.go",
+        "structs.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/internal/structs",
+    visibility = ["//visibility:public"],
+)

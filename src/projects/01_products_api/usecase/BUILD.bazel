@@ -1,0 +1,12 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "usecase",
+    srcs = ["product_usecase.go"],
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/usecase",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//projects/01_products_api/model",
+        "//projects/01_products_api/repository",
+    ],
+)
