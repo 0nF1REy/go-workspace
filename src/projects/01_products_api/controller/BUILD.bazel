@@ -7,6 +7,7 @@ go_library(
     visibility = ["//visibility:public"],
     deps = [
         "//projects/01_products_api/usecase",
+        "//projects/01_products_api/model",
         "@com_github_gin_gonic_gin//:gin",
     ],
 )
