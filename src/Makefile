@@ -1,4 +1,4 @@
-.PHONY: help start build run run-hot menu tidy gazelle clean deps-sync db-up db-down
+.PHONY: help start build dev prod menu tidy gazelle clean deps-sync db-up db-down
 
 # Default target
 help:
@@ -8,16 +8,16 @@ help:
 	@echo "  make deps-sync   - Sincroniza dependências Go e Bazel (go mod tidy + bazel mod tidy + gazelle)"
 	@echo "  make gazelle     - Executa o gerador de código do Bazel (gazelle)"
 	@echo "  make build       - Compila a aplicação"
-	@echo "  make run         - Executa a aplicação em modo interativo (menu)"
-	@echo "  make run-hot     - Executa com hot reload (Air + Bazel)"
-	@echo "  make start       - Workflow completo: deps-sync, build e run"
+	@echo "  make dev         - Executa com hot reload (Air + Bazel + DB check)"
+	@echo "  make prod        - Executa em modo interativo (menu)"
+	@echo "  make start       - Workflow completo: deps-sync, build e prod"
 	@echo "  make db-up       - Inicia o banco de dados PostgreSQL"
 	@echo "  make db-down     - Para o banco de dados PostgreSQL"
 	@echo "  make clean       - Limpa os artefatos de build do Bazel"
 	@echo ""
 	@echo "Workflow de desenvolvimento:"
 	@echo "  1. make db-up"
-	@echo "  2. make start  (ou comandos separados: deps-sync, build, run)"
+	@echo "  2. make dev      (hot reload) ou make prod (modo interativo)"
 	@echo ""
 
 # Sync all dependencies
@@ -37,23 +37,23 @@ build:
 	@echo "=== Compilando aplicação ==="
 	bazel build //cmd/main
 
-# Run the application in interactive menu mode
-run:
-	@echo "=== Executando aplicação em modo interativo (menu) ==="
+# Run the application in development mode (hot reload + DB check)
+dev:
+	@echo "=== Executando modo desenvolvimento (hot reload) ==="
 	./dev.sh
 
-# Run the application with hot reload (Air + Bazel)
-run-hot:
-	@echo "=== Executando aplicação com hot reload (Air) ==="
-	DEV_HOT_RELOAD=1 ./dev.sh
+# Run the application in production mode (interactive menu)
+prod:
+	@echo "=== Executando modo produção (interativo) ==="
+	./prod.sh
 
 # Run the interactive menu (no hot reload)
 menu:
 	@echo "=== Executando menu interativo ==="
 	bazel run //cmd/main
 
-# Full workflow: deps-sync, build, and run
-start: deps-sync build run
+# Full workflow: deps-sync, build, and prod
+start: deps-sync build prod
 
 # Database operations
 db-up:
