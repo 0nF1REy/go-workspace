@@ -3,10 +3,11 @@ package menu
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/cmd"
+	products_api "github.com/0nF1REy/go-workspace/projects/01_products_api/cmd"
 )
 
 func Projects(enable bool) {
@@ -24,6 +25,15 @@ func Projects(enable bool) {
 
 		input, err := reader.ReadString('\n')
 		if err != nil {
+			if err == io.EOF {
+				if os.Getenv("DEV_HOT_RELOAD") == "1" {
+					fmt.Println("Entrada encerrada (EOF). Iniciando API de Produtos no modo hot reload...")
+					products_api.StartAPI()
+					return
+				}
+				fmt.Println("Entrada encerrada (EOF). Saindo do menu Projects...")
+				return
+			}
 			fmt.Println("Erro ao ler entrada:", err)
 			continue
 		}
