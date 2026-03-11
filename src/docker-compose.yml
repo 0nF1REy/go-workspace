@@ -1,7 +1,7 @@
 services:
-  products_db:
+  workspace_db:
     image: docker.io/library/postgres:16
-    container_name: products_postgres
+    container_name: workspace_postgres
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -10,7 +10,7 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - workspace_postgres_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  workspace_postgres_data:
