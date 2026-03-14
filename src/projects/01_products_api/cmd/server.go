@@ -34,6 +34,7 @@ func RunAPI() {
 	api.GET("/products", productController.GetProducts)
 	api.POST("/products", productController.CreateProduct)
 	api.GET("/products/:id", productController.GetProductById)
+	api.PUT("/products/:id", productController.UpdateProduct)
 
 	server.Run(":8000")
 }

@@ -86,3 +86,29 @@ func (pr *ProductRepository) GetProductById(id_product int) (model.Product, erro
 
 	return p, nil
 }
+
+func (pr *ProductRepository) UpdateProduct(id int, p model.Product) error {
+
+	query := `
+		UPDATE product
+		SET product_name = $1, price = $2
+		WHERE id = $3
+	`
+
+	result, err := pr.Connection.Exec(query, p.Name, p.Price, id)
+	if err != nil {
+		log.Println("Erro ao atualizar produto:", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}

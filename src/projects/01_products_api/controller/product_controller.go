@@ -93,3 +93,52 @@ func (p *productController) GetProductById(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, product)
 }
+
+// PUT /products/:id
+func (p *productController) UpdateProduct(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, model.Response{
+			Message: "id do produto deve ser um número",
+		})
+		return
+	}
+
+	var input model.Product
+
+	if err := ctx.ShouldBindJSON(&input); err != nil {
+		ctx.JSON(http.StatusBadRequest, model.Response{
+			Message: "corpo JSON inválido",
+		})
+		return
+	}
+
+	// Validação
+	if input.Name == "" {
+		ctx.JSON(http.StatusBadRequest, model.Response{
+			Message: "campo 'name' é obrigatório",
+		})
+		return
+	}
+
+	if input.Price <= 0 {
+		ctx.JSON(http.StatusBadRequest, model.Response{
+			Message: "campo 'price' deve ser maior que zero",
+		})
+		return
+	}
+
+	err = p.productUseCase.UpdateProduct(id, input)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, model.Response{
+			Message: "produto não encontrado",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.Response{
+		Message: "produto atualizado com sucesso",
+	})
+}
