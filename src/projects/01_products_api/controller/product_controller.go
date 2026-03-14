@@ -36,12 +36,17 @@ func (p *productController) GetProducts(ctx *gin.Context) {
 
 // POST /products
 func (p *productController) CreateProduct(ctx *gin.Context) {
-	var input model.Product
+	var input model.CreateProductRequest
 
 	// Bind JSON
 	if err := ctx.ShouldBindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "JSON inválido"})
 		return
+	}
+
+	productInput := model.Product{
+		Name:  input.Name,
+		Price: input.Price,
 	}
 
 	// Validação
@@ -55,7 +60,7 @@ func (p *productController) CreateProduct(ctx *gin.Context) {
 	}
 
 	// Cria produto
-	id, err := p.productUseCase.CreateProduct(input)
+	id, err := p.productUseCase.CreateProduct(productInput)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Erro ao criar produto"})
 		return
@@ -64,8 +69,8 @@ func (p *productController) CreateProduct(ctx *gin.Context) {
 	// Retorna produto completo
 	product := model.Product{
 		ID:    id,
-		Name:  input.Name,
-		Price: input.Price,
+		Name:  productInput.Name,
+		Price: productInput.Price,
 	}
 
 	ctx.JSON(http.StatusCreated, product)
@@ -108,11 +113,18 @@ func (p *productController) UpdateProduct(ctx *gin.Context) {
 
 	var input model.Product
 
-	if err := ctx.ShouldBindJSON(&input); err != nil {
+	var request model.UpdateProductRequest
+
+	if err := ctx.ShouldBindJSON(&request); err != nil {
 		ctx.JSON(http.StatusBadRequest, model.Response{
 			Message: "corpo JSON inválido",
 		})
 		return
+	}
+
+	input = model.Product{
+		Name:  request.Name,
+		Price: request.Price,
 	}
 
 	// Validação
