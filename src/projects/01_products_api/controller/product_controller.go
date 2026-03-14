@@ -142,3 +142,29 @@ func (p *productController) UpdateProduct(ctx *gin.Context) {
 		Message: "produto atualizado com sucesso",
 	})
 }
+
+// DELETE /products/:id
+func (p *productController) DeleteProduct(ctx *gin.Context) {
+
+	idParam := ctx.Param("id")
+
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, model.Response{
+			Message: "id do produto deve ser um número",
+		})
+		return
+	}
+
+	err = p.productUseCase.DeleteProduct(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, model.Response{
+			Message: "produto não encontrado",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, model.Response{
+		Message: "produto removido com sucesso",
+	})
+}

@@ -31,10 +31,14 @@ func RunAPI() {
 		ctx.JSON(200, gin.H{"message": "pong"})
 	})
 
+	// ----------------------
+	// Product API Endpoints
+	// ----------------------
 	api.GET("/products", productController.GetProducts)
 	api.POST("/products", productController.CreateProduct)
 	api.GET("/products/:id", productController.GetProductById)
 	api.PUT("/products/:id", productController.UpdateProduct)
+	api.DELETE("/products/:id", productController.DeleteProduct)
 
 	server.Run(":8000")
 }

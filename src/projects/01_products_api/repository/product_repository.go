@@ -112,3 +112,25 @@ func (pr *ProductRepository) UpdateProduct(id int, p model.Product) error {
 
 	return nil
 }
+
+func (pr *ProductRepository) DeleteProduct(id int) error {
+
+	query := "DELETE FROM product WHERE id = $1"
+
+	result, err := pr.Connection.Exec(query, id)
+	if err != nil {
+		log.Println("Erro ao deletar produto:", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
+}

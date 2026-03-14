@@ -28,3 +28,7 @@ func (pu *ProductUsecase) GetProductById(id_product int) (model.Product, error) 
 func (pu *ProductUsecase) UpdateProduct(id int, p model.Product) error {
 	return pu.Repo.UpdateProduct(id, p)
 }
+
+func (pu *ProductUsecase) DeleteProduct(id int) error {
+	return pu.Repo.DeleteProduct(id)
+}
