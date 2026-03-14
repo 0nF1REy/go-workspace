@@ -1,0 +1,10 @@
+.git
+.gitignore
+.vscode
+.idea
+bazel-bin
+bazel-out
+bazel-src
+bazel-testlogs
+tmp
+**/*_test.go

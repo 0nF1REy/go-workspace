@@ -1,4 +1,9 @@
-.PHONY: help start build dev prod menu tidy gazelle clean deps-sync db-up db-down
+.PHONY: help start build dev prod menu tidy gazelle clean deps-sync db-up db-down api-image api-up api-down api-logs
+
+CONTAINER_ENGINE ?= podman
+COMPOSE_CMD ?= $(CONTAINER_ENGINE) compose
+PRODUCTS_API_IMAGE ?= go-workspace-products-api:latest
+PRODUCTS_API_DOCKERFILE ?= projects/01_products_api/Dockerfile
 
 # Default target
 help:
@@ -11,13 +16,17 @@ help:
 	@echo "  make dev         - Executa API direto com hot reload (Air + Bazel + DB check)"
 	@echo "  make prod        - Executa em modo interativo (menu)"
 	@echo "  make start       - Workflow completo: deps-sync, build e prod"
-	@echo "  make db-up       - Inicia o banco de dados PostgreSQL"
+	@echo "  make db-up       - Inicia apenas o banco de dados PostgreSQL"
 	@echo "  make db-down     - Para o banco de dados PostgreSQL"
+	@echo "  make api-image   - Builda a imagem da 01_products_api (atalho para build -t)"
+	@echo "  make api-up      - Sobe PostgreSQL + 01_products_api em containers"
+	@echo "  make api-down    - Derruba os containers da stack"
+	@echo "  make api-logs    - Acompanha logs da API e do banco"
 	@echo "  make clean       - Limpa os artefatos de build do Bazel"
 	@echo ""
-	@echo "Workflow de desenvolvimento:"
-	@echo "  1. make db-up"
-	@echo "  2. make dev      (hot reload) ou make prod (modo interativo)"
+	@echo "Workflow com containers:"
+	@echo "  1. make api-image"
+	@echo "  2. make api-up"
 	@echo ""
 
 # Sync all dependencies
@@ -58,11 +67,28 @@ start: deps-sync build prod
 # Database operations
 db-up:
 	@echo "=== Iniciando banco de dados PostgreSQL ==="
-	podman compose up
+	$(COMPOSE_CMD) up workspace_db
 
 db-down:
 	@echo "=== Parando banco de dados PostgreSQL ==="
-	podman compose down
+	$(COMPOSE_CMD) stop workspace_db
+
+# Containers for products API + PostgreSQL
+api-image:
+	@echo "=== Buildando imagem da 01_products_api ==="
+	$(CONTAINER_ENGINE) build -f $(PRODUCTS_API_DOCKERFILE) -t $(PRODUCTS_API_IMAGE) .
+
+api-up:
+	@echo "=== Subindo PostgreSQL + 01_products_api ==="
+	$(COMPOSE_CMD) up workspace_db products_api
+
+api-down:
+	@echo "=== Derrubando stack de containers ==="
+	$(COMPOSE_CMD) down
+
+api-logs:
+	@echo "=== Logs da 01_products_api e PostgreSQL ==="
+	$(COMPOSE_CMD) logs -f products_api workspace_db
 
 # Clean build artifacts
 clean:

@@ -11,6 +11,31 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - workspace_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  products_api:
+    build:
+      context: .
+      dockerfile: projects/01_products_api/Dockerfile
+    image: go-workspace-products-api:latest
+    container_name: workspace_products_api
+    restart: unless-stopped
+    depends_on:
+      workspace_db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: workspace_db
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      GIN_MODE: release
+    ports:
+      - "8000:8000"
 
 volumes:
   workspace_postgres_data:
