@@ -1,10 +1,10 @@
 package products_api
 
 import (
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/controller"
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/db"
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/repository"
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/usecase"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/internal/controller"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/internal/db"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/internal/repository"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/internal/usecase"
 	"github.com/gin-gonic/gin"
 )
 

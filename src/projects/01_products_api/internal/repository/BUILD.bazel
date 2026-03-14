@@ -3,9 +3,9 @@ load("@rules_go//go:def.bzl", "go_library")
 go_library(
     name = "repository",
     srcs = ["product_repository.go"],
-    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/repository",
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/internal/repository",
     visibility = ["//visibility:public"],
     deps = [
-        "//projects/01_products_api/model",
+        "//projects/01_products_api/internal/model",
     ],
 )

@@ -7,6 +7,6 @@ go_library(
         "product_dto.go",
         "response.go",
     ],
-    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/model",
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/internal/model",
     visibility = ["//visibility:public"],
 )

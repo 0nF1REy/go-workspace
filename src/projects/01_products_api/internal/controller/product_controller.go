@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/model"
-	"github.com/0nF1REy/go-workspace/projects/01_products_api/usecase"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/internal/model"
+	"github.com/0nF1REy/go-workspace/projects/01_products_api/internal/usecase"
 	"github.com/gin-gonic/gin"
 )
 

@@ -3,7 +3,7 @@ load("@rules_go//go:def.bzl", "go_library")
 go_library(
     name = "db",
     srcs = ["conn.go"],
-    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/db",
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/internal/db",
     visibility = ["//visibility:public"],
     deps = [
         "@com_github_joho_godotenv//:godotenv",
