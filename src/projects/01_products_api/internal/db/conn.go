@@ -83,8 +83,8 @@ func init() {
 
 	if Host == "" || Port == "" || User == "" || Pass == "" || DB == "" {
 		log.Println("Aviso: algumas variáveis do .env não foram carregadas corretamente")
-		log.Printf("POSTGRES_HOST = %s\nPOSTGRES_PORT = %s\nPOSTGRES_USER = %s\nPOSTGRES_PASSWORD = %s\nPOSTGRES_DB = %s\n",
-			Host, Port, User, Pass, DB)
+		log.Printf("POSTGRES_HOST = %s\nPOSTGRES_PORT = %s\nPOSTGRES_USER = %s\nPOSTGRES_PASSWORD = [REDACTED]\nPOSTGRES_DB = %s\n",
+			Host, Port, User, DB)
 	}
 }
 

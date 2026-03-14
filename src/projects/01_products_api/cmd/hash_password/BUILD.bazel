@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "hash_password_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/cmd/hash_password",
+    visibility = ["//visibility:private"],
+    deps = ["@org_golang_x_crypto//bcrypt"],
+)
+
+go_binary(
+    name = "hash_password",
+    embed = [":hash_password_lib"],
+    visibility = ["//visibility:public"],
+)

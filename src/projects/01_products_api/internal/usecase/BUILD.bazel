@@ -2,11 +2,16 @@ load("@rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "usecase",
-    srcs = ["product_usecase.go"],
+    srcs = [
+        "auth_usecase.go",
+        "product_usecase.go",
+    ],
     importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/internal/usecase",
     visibility = ["//visibility:public"],
     deps = [
         "//projects/01_products_api/internal/model",
         "//projects/01_products_api/internal/repository",
+        "@com_github_golang_jwt_jwt_v5//:jwt",
+        "@org_golang_x_crypto//bcrypt",
     ],
 )

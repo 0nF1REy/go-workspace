@@ -11,6 +11,7 @@ go_library(
     deps = [
         "//projects/01_products_api/internal/controller",
         "//projects/01_products_api/internal/db",
+        "//projects/01_products_api/internal/middleware",
         "//projects/01_products_api/internal/repository",
         "//projects/01_products_api/internal/usecase",
         "@com_github_gin_gonic_gin//:gin",

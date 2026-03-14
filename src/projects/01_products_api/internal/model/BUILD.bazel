@@ -3,10 +3,15 @@ load("@rules_go//go:def.bzl", "go_library")
 go_library(
     name = "model",
     srcs = [
+        "auth_dto.go",
         "product.go",
         "product_dto.go",
         "response.go",
+        "user.go",
     ],
     importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api/internal/model",
     visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_golang_jwt_jwt_v5//:jwt",
+    ],
 )
