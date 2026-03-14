@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/0nF1REy/go-workspace/projects/01_products_api/model"
 	"github.com/0nF1REy/go-workspace/projects/01_products_api/usecase"
@@ -68,4 +69,27 @@ func (p *productController) CreateProduct(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, product)
+}
+
+// GET /products/:id
+func (p *productController) GetProductById(ctx *gin.Context) {
+	idParam := ctx.Param("id")
+
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, model.Response{
+			Message: "id do produto deve ser um número",
+		})
+		return
+	}
+
+	product, err := p.productUseCase.GetProductById(id)
+	if err != nil {
+		ctx.JSON(http.StatusNotFound, model.Response{
+			Message: "produto não encontrado",
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, product)
 }

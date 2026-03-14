@@ -20,3 +20,7 @@ func (pu *ProductUsecase) GetProducts() ([]model.Product, error) {
 func (pu *ProductUsecase) CreateProduct(p model.Product) (int, error) {
 	return pu.Repo.CreateProduct(p)
 }
+
+func (pu *ProductUsecase) GetProductById(id_product int) (model.Product, error) {
+	return pu.Repo.GetProductById(id_product)
+}

@@ -12,5 +12,6 @@ go_library(
     name = "dev_lib",
     srcs = ["main.go"],
     importpath = "github.com/0nF1REy/go-workspace/cmd/dev",
+    visibility = ["//visibility:private"],
     deps = ["//projects/01_products_api/cmd"],
 )
