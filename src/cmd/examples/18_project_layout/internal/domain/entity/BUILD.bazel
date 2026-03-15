@@ -1,0 +1,13 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "entity",
+    srcs = ["entity.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/18_project_layout/internal/domain/entity",
+    visibility = ["//cmd/examples/18_project_layout:__subpackages__"],
+)
+
+go_test(
+    name = "entity_test",
+    srcs = ["entity_test.go"],
+)
