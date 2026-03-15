@@ -1,0 +1,14 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "01_hello_channel_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/15_channels/01_hello_channel",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "01_hello_channel",
+    embed = [":01_hello_channel_lib"],
+    visibility = ["//visibility:public"],
+)
