@@ -48,8 +48,12 @@ func GetExamples() []ExampleInfo {
 		{"Channels Select Timeout", "15_channels/03_select_timeout"},
 		{"Channels Infinite Queue", "15_channels/04_infinite_queue"},
 		{"Channels Multi Worker", "15_channels/05_multi_worker"},
-		
+
 		{"Generics", "16_generics"},
+
+		{"Context Client", "17_context/client"},
+		{"Context Hotel", "17_context/hotel"},
+		{"Context Server", "17_context/server"},
 	}
 
 	root := os.Getenv("EXAMPLES_ROOT")
