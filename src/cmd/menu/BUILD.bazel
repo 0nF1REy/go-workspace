@@ -4,6 +4,7 @@ go_library(
     name = "menu",
     srcs = [
         "examples.go",
+        "examples_registry.go",
         "internal.go",
         "menu.go",
         "projects.go",
