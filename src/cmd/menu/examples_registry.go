@@ -36,6 +36,8 @@ func GetExamples() []ExampleInfo {
 
 		{"User Welcome", "10_user_welcome"},
 		{"Auth", "11_auth"},
+		{"Error", "12_error"},
+		{"Variadic Functions", "13_variadic_functions"},
 	}
 
 	root := os.Getenv("EXAMPLES_ROOT")
