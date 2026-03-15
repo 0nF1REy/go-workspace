@@ -8,6 +8,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.11.2
 	golang.org/x/crypto v0.48.0
+	golang.org/x/exp v0.0.0-20260312153236-7ab1446f8b90
 )
 
 require (
