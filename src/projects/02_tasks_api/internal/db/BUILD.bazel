@@ -1,0 +1,12 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "db",
+    srcs = ["connection.go"],
+    importpath = "github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/db",
+    visibility = ["//projects/02_tasks_api:__subpackages__"],
+    deps = [
+        "//projects/02_tasks_api/internal/configs",
+        "@com_github_lib_pq//:pq",
+    ],
+)

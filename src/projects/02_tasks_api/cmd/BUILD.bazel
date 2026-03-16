@@ -1,0 +1,12 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cmd",
+    srcs = [
+        "main.go",
+        "server.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/projects/02_tasks_api/cmd",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_joho_godotenv//:godotenv"],
+)
