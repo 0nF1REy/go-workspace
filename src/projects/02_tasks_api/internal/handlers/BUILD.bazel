@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "handlers",
+    srcs = [
+        "create.go",
+        "delete.go",
+        "get.go",
+        "list.go",
+        "update.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/handlers",
+    visibility = ["//projects/02_tasks_api:__subpackages__"],
+    deps = ["//projects/02_tasks_api/internal/models"],
+)

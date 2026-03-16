@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -25,27 +26,34 @@ type DBConfig struct {
 	Database string
 }
 
-func init() {
-	viper.SetDefault("api.port", "9000")
-
-	viper.SetDefault("database.host", "localhost")
-	viper.SetDefault("database.port", "5432")
-	viper.SetDefault("database.user", "postgres")
-	viper.SetDefault("database.pass", "postgres")
-	viper.SetDefault("database.database", "app")
-}
-
 func Load() error {
 
-	// Permite usar DATABASE_HOST etc
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
+
+	viper.BindEnv("api.port", "PORT")
 
 	viper.BindEnv("database.host", "POSTGRES_HOST")
 	viper.BindEnv("database.port", "POSTGRES_PORT")
 	viper.BindEnv("database.user", "POSTGRES_USER")
 	viper.BindEnv("database.pass", "POSTGRES_PASSWORD")
 	viper.BindEnv("database.database", "POSTGRES_DB")
+
+	// validação obrigatória
+	required := []string{
+		"api.port",
+		"database.host",
+		"database.port",
+		"database.user",
+		"database.pass",
+		"database.database",
+	}
+
+	for _, key := range required {
+		if !viper.IsSet(key) {
+			return errors.New("missing required environment variable: " + key)
+		}
+	}
 
 	cfg = &config{
 		API: APIConfig{

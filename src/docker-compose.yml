@@ -11,6 +11,7 @@ services:
       - "${POSTGRES_PORT}:5432"
     volumes:
       - workspace_postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
@@ -37,6 +38,25 @@ services:
       GIN_MODE: release
     ports:
       - "8000:8000"
+
+  tasks_api:
+    build:
+      context: .
+      dockerfile: projects/02_tasks_api/Dockerfile
+    image: go-workspace-tasks-api:latest
+    container_name: workspace_tasks_api
+    restart: unless-stopped
+    depends_on:
+      workspace_db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: workspace_db
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "8001:8000"
 
 volumes:
   workspace_postgres_data:
