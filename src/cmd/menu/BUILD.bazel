@@ -18,5 +18,6 @@ go_library(
         "//internal/structs",
         "//internal/types",
         "//projects/01_products_api/cmd",
+        "//projects/02_tasks_api/cmd",
     ],
 )

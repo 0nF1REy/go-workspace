@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	products_api "github.com/0nF1REy/go-workspace/projects/01_products_api/cmd"
+	tasks_api "github.com/0nF1REy/go-workspace/projects/02_tasks_api/cmd"
 )
 
 func Projects(enable bool) {
@@ -20,6 +21,7 @@ func Projects(enable bool) {
 	for {
 		fmt.Println("\n=== CLI Interativo [PROJECTS] ===")
 		fmt.Println("1 - API de Produtos")
+		fmt.Println("2 - API de Tarefas")
 		fmt.Println("0 - Sair")
 		fmt.Print("Escolha uma opção: ")
 
@@ -43,6 +45,10 @@ func Projects(enable bool) {
 		case "1":
 			fmt.Println("Iniciando API de Produtos...")
 			products_api.StartAPI()
+			return
+		case "2":
+			fmt.Println("Iniciando API de Tarefas...")
+			tasks_api.StartAPI()
 			return
 		case "0":
 			fmt.Println("Saindo do menu Projects...")
