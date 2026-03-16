@@ -1,8 +1,0 @@
-load("@rules_go//go:def.bzl", "go_library")
-
-go_library(
-    name = "kafka",
-    srcs = ["kafka.go"],
-    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/18_project_layout/pkg/kafka",
-    visibility = ["//visibility:public"],
-)
