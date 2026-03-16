@@ -8,10 +8,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func OpenConnection() (*sql.DB, error) {
+var DB *sql.DB
 
+func Init() error {
 	conf := configs.GetDB()
-
 	sc := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 		conf.Host,
@@ -21,15 +21,17 @@ func OpenConnection() (*sql.DB, error) {
 		conf.Database,
 	)
 
-	conn, err := sql.Open("postgres", sc)
+	db, err := sql.Open("postgres", sc)
+
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	err = conn.Ping()
-	if err != nil {
-		return nil, err
+	if err := db.Ping(); err != nil {
+		return err
 	}
 
-	return conn, nil
+	DB = db
+
+	return nil
 }

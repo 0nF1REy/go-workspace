@@ -1,0 +1,14 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "models",
+    srcs = [
+        "entities.go",
+        "get.go",
+        "get_all.go",
+        "insert.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/models",
+    visibility = ["//projects/02_tasks_api:__subpackages__"],
+    deps = ["//projects/02_tasks_api/internal/db"],
+)
