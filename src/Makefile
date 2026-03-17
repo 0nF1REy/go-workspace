@@ -1,4 +1,4 @@
-.PHONY: help start build dev prod menu tidy gazelle clean deps-sync db-up db-down api-image api-up api-down api-logs
+.PHONY: help start build dev prod menu tidy gazelle clean deps-sync db-up db-down api-image api-up api-down api-logs podman-clean
 
 CONTAINER_ENGINE ?= podman
 COMPOSE_CMD ?= $(CONTAINER_ENGINE) compose
@@ -23,6 +23,7 @@ help:
 	@echo "  make api-down    - Derruba os containers da stack"
 	@echo "  make api-logs    - Acompanha logs da API e do banco"
 	@echo "  make clean       - Limpa os artefatos de build do Bazel"
+	@echo "  make podman-clean - Para e remove todos os containers podman (força e ignora erros)"
 	@echo ""
 	@echo "Workflow com containers:"
 	@echo "  1. make api-image"
@@ -96,3 +97,15 @@ clean:
 	bazel clean
 	rm -rf bazel-*
 	rm -rf tmp/
+
+podman-clean:
+	@echo "=== Parando e removendo todos os containers podman ==="
+	@echo ""
+	@if [ "$$(podman ps -aq)" != "" ]; then \
+		podman stop $$(podman ps -aq); \
+		podman rm $$(podman ps -aq); \
+	else \
+		echo "Nenhum container para parar ou remover."; \
+		echo ""; \
+		podman ps -a; \
+	fi
