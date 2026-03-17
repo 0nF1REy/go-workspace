@@ -2,70 +2,82 @@
 
 CONTAINER_ENGINE ?= podman
 COMPOSE_CMD ?= $(CONTAINER_ENGINE) compose
-PRODUCTS_API_IMAGE ?= go-workspace-products-api:latest
-PRODUCTS_API_DOCKERFILE ?= projects/01_products_api/Dockerfile
 
+# Defina a API pelo comando: make api-up API_NAME=tasks
+API_NAME ?= products
+
+# Detecta automaticamente o número do projeto (01, 02...) baseado no nome da API
+API_NUMBER := $(shell ls projects | grep -i $(API_NAME)_api | sed 's/_.*//')
+
+# Paths e nomes dinâmicos
+API_PROJECT_DIR := projects/$(API_NUMBER)_$(API_NAME)_api
+API_IMAGE ?= go-workspace-$(API_NAME)-api:latest
+API_SERVICE_NAME ?= $(API_NAME)_api
+
+# ----------------------
 # Default target
+# ----------------------
 help:
 	@echo "=== Go Workspace Makefile ==="
 	@echo ""
 	@echo "Available targets:"
-	@echo "  make deps-sync   - Sincroniza dependências Go e Bazel (go mod tidy + bazel mod tidy + gazelle)"
-	@echo "  make gazelle     - Executa o gerador de código do Bazel (gazelle)"
+	@echo "  make deps-sync   - Sincroniza dependências Go e Bazel"
+	@echo "  make gazelle     - Executa Bazel gazelle"
 	@echo "  make build       - Compila a aplicação"
-	@echo "  make dev         - Executa API direto com hot reload (Air + Bazel + DB check)"
+	@echo "  make dev         - Executa API com hot reload"
 	@echo "  make prod        - Executa em modo interativo (menu)"
 	@echo "  make start       - Workflow completo: deps-sync, build e prod"
 	@echo "  make db-up       - Inicia apenas o banco de dados PostgreSQL"
 	@echo "  make db-down     - Para o banco de dados PostgreSQL"
-	@echo "  make api-image   - Builda a imagem da 01_products_api (atalho para build -t)"
-	@echo "  make api-up      - Sobe PostgreSQL + 01_products_api em containers"
+	@echo "  make api-image   - Builda a imagem da API (atalho build -t)"
+	@echo "  make api-up      - Sobe PostgreSQL + API em containers"
 	@echo "  make api-down    - Derruba os containers da stack"
 	@echo "  make api-logs    - Acompanha logs da API e do banco"
 	@echo "  make clean       - Limpa os artefatos de build do Bazel"
-	@echo "  make podman-clean - Para e remove todos os containers podman (força e ignora erros)"
+	@echo "  make podman-clean - Para e remove todos os containers podman"
 	@echo ""
 	@echo "Workflow com containers:"
-	@echo "  1. make api-image"
-	@echo "  2. make api-up"
-	@echo ""
+	@echo "  1. make api-image API_NAME=products"
+	@echo "  2. make api-up API_NAME=products"
+	@echo "  Exemplo para outra API: API_NAME=tasks"
 
-# Sync all dependencies
+# ----------------------
+# Dependencies
+# ----------------------
 deps-sync:
 	@echo "=== Sincronizando dependências ==="
 	go mod tidy
 	bazel mod tidy
 	bazel run //:gazelle
 
-# Run gazelle only
 gazelle:
 	@echo "=== Executando Bazel gazelle ==="
 	bazel run //:gazelle
 
-# Build the application
+# ----------------------
+# Build & Run
+# ----------------------
 build:
 	@echo "=== Compilando aplicação ==="
 	bazel build //cmd/main
 
-# Run the application in development mode (hot reload + DB check)
 dev:
 	@echo "=== Executando modo desenvolvimento (hot reload) ==="
 	./dev.sh
 
-# Run the application in production mode (interactive menu)
 prod:
 	@echo "=== Executando modo produção (interativo) ==="
 	./prod.sh
 
-# Run the interactive menu (no hot reload)
 menu:
 	@echo "=== Executando menu interativo ==="
 	bazel run //cmd/main
 
-# Full workflow: deps-sync, build, and prod
 start: deps-sync build prod
 
+# ----------------------
 # Database operations
+# ----------------------
 db-up:
 	@echo "=== Iniciando banco de dados PostgreSQL ==="
 	$(COMPOSE_CMD) up workspace_db
@@ -74,24 +86,36 @@ db-down:
 	@echo "=== Parando banco de dados PostgreSQL ==="
 	$(COMPOSE_CMD) stop workspace_db
 
-# Containers for products API + PostgreSQL
+# ----------------------
+# Dynamic API container targets
+# ----------------------
 api-image:
-	@echo "=== Buildando imagem da 01_products_api ==="
-	$(CONTAINER_ENGINE) build -f $(PRODUCTS_API_DOCKERFILE) -t $(PRODUCTS_API_IMAGE) .
+	@echo "=== Buildando imagem da $(API_SERVICE_NAME) (sem cache) ==="
+	$(CONTAINER_ENGINE) build --no-cache -f $(API_PROJECT_DIR)/Dockerfile -t $(API_IMAGE) .
 
 api-up:
-	@echo "=== Subindo PostgreSQL + 01_products_api ==="
-	$(COMPOSE_CMD) up workspace_db products_api
+	@echo "=== Subindo PostgreSQL + $(API_SERVICE_NAME) ==="
+	$(COMPOSE_CMD) up workspace_db $(API_SERVICE_NAME)
 
 api-down:
-	@echo "=== Derrubando stack de containers ==="
-	$(COMPOSE_CMD) down
+	@echo "=== Parando containers: $(API_SERVICE_NAME) e workspace_db ==="
+	$(COMPOSE_CMD) stop $(API_SERVICE_NAME) workspace_db
+	@echo "=== Removendo containers específicos ==="
+	@# Filtra e remove os containers pelos labels gerados pelo podman-compose
+	@for service in $(API_SERVICE_NAME) workspace_db; do \
+		ids=$$($(CONTAINER_ENGINE) ps -a -q --filter "label=io.podman.compose.service=$$service"); \
+		if [ -n "$$ids" ]; then \
+			$(CONTAINER_ENGINE) rm -f $$ids; \
+		fi; \
+	done
 
 api-logs:
-	@echo "=== Logs da 01_products_api e PostgreSQL ==="
-	$(COMPOSE_CMD) logs -f products_api workspace_db
+	@echo "=== Logs da $(API_SERVICE_NAME) e PostgreSQL ==="
+	$(COMPOSE_CMD) logs -f $(API_SERVICE_NAME) workspace_db
 
+# ----------------------
 # Clean build artifacts
+# ----------------------
 clean:
 	@echo "=== Limpando artefatos do Bazel ==="
 	bazel clean

@@ -1,0 +1,15 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "01_products_api_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/projects/01_products_api",
+    visibility = ["//visibility:private"],
+    deps = ["//projects/01_products_api/cmd"],
+)
+
+go_binary(
+    name = "01_products_api",
+    embed = [":01_products_api_lib"],
+    visibility = ["//visibility:public"],
+)
