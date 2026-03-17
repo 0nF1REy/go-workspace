@@ -7,7 +7,7 @@ import (
 func GetAll() (todos []Todo, err error) {
 
 	rows, err := db.DB.Query(`
-	SELECT id, title, description, done
+	SELECT id, title, description, done FROM tasks.todo
 	FROM todos
 `)
 	if err != nil {

@@ -7,7 +7,7 @@ import (
 func Update(id int64, todo Todo) (int64, error) {
 
 	result, err := db.DB.Exec(`
-		UPDATE todos
+		UPDATE tasks.todo
 		SET title = $1,
 		    description = $2,
 		    done = $3

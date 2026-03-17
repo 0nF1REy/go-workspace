@@ -7,7 +7,7 @@ import (
 func Delete(id int64) (int64, error) {
 
 	result, err := db.DB.Exec(`
-		DELETE FROM todos
+		DELETE FROM tasks.todo
 		WHERE id = $1
 	`, id)
 

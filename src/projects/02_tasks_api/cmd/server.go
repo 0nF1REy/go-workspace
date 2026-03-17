@@ -27,6 +27,13 @@ func RunAPI() {
 		log.Fatalf("Falha ao inicializar banco de dados: %v", err)
 	}
 
+	// ----------------------
+	// MIGRATIONS
+	// ----------------------
+	if err := db.RunMigrations(db.DB); err != nil {
+		panic(err)
+	}
+
 	r := chi.NewRouter()
 
 	// ----------------------

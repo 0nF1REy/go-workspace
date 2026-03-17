@@ -2,11 +2,17 @@ load("@rules_go//go:def.bzl", "go_library")
 
 go_library(
     name = "db",
-    srcs = ["connection.go"],
+    srcs = [
+        "connection.go",
+        "migrate.go",
+    ],
     importpath = "github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/db",
     visibility = ["//projects/02_tasks_api:__subpackages__"],
     deps = [
         "//projects/02_tasks_api/internal/configs",
+        "@com_github_golang_migrate_migrate_v4//:migrate",
+        "@com_github_golang_migrate_migrate_v4//database/postgres",
+        "@com_github_golang_migrate_migrate_v4//source/file",
         "@com_github_lib_pq//:pq",
     ],
 )
