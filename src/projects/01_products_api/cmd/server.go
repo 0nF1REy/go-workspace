@@ -17,18 +17,31 @@ func RunAPI() {
 		panic(err)
 	}
 
+	// ----------------------
+	// MIGRATIONS
+	// ----------------------
+	if err := db.RunMigrations(dbConnection); err != nil {
+		panic(err)
+	}
+
+	// ----------------------
 	// Camada de repository
+	// ----------------------
 	productRepo := repository.NewProductRepository(dbConnection)
 	authRepo := repository.NewAuthRepository(dbConnection)
 
+	// ----------------------
 	// Camada usecase
+	// ----------------------
 	productUsecase := usecase.NewProductUseCase(productRepo)
 	authUsecase, err := usecase.NewAuthUsecaseFromEnv(authRepo)
 	if err != nil {
 		panic(err)
 	}
 
+	// ----------------------
 	// Camada de controllers
+	// ----------------------
 	productController := controller.NewProductController(productUsecase)
 	authController := controller.NewAuthController(&authUsecase)
 

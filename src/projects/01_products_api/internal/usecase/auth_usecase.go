@@ -49,10 +49,6 @@ func NewAuthUsecaseFromEnv(repo repository.AuthRepository) (AuthUsecase, error) 
 		ttlMinutes = parsed
 	}
 
-	if err := repo.EnsureSchema(); err != nil {
-		return AuthUsecase{}, err
-	}
-
 	return AuthUsecase{
 		jwtSecret: []byte(jwtSecret),
 		issuer:    issuer,
