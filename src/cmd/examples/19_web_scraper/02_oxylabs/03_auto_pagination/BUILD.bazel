@@ -1,0 +1,23 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "03_multi_page_aut_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/19_web_scraper/02_oxylabs/03_multi_page_aut",
+    visibility = ["//visibility:private"],
+    deps = ["@com_github_gocolly_colly_v2//:colly"],
+)
+
+go_binary(
+    name = "03_multi_page_aut",
+    embed = [":03_auto_pagination_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "03_auto_pagination_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/19_web_scraper/02_oxylabs/03_auto_pagination",
+    visibility = ["//visibility:private"],
+    deps = ["@com_github_gocolly_colly_v2//:colly"],
+)

@@ -9,12 +9,6 @@ import (
 	"github.com/gocolly/colly/v2"
 )
 
-type Product struct {
-	Name  string
-	Price string
-	URL   string
-}
-
 func main() {
 
 	c := colly.NewCollector(
