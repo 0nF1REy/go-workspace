@@ -11,5 +11,8 @@ go_library(
     ],
     importpath = "github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/handlers",
     visibility = ["//projects/02_tasks_api:__subpackages__"],
-    deps = ["//projects/02_tasks_api/internal/models"],
+    deps = [
+        "//projects/02_tasks_api/internal/models",
+        "@com_github_go_chi_chi_v5//:chi",
+    ],
 )
