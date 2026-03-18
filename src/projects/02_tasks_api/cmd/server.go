@@ -36,14 +36,37 @@ func RunAPI() {
 
 	r := chi.NewRouter()
 
-	// ----------------------
-	// Task API Endpoints
-	// ----------------------
-	r.Post("/todos", handlers.Create)
-	r.Get("/todos", handlers.List)
-	r.Get("/todos/{id}", handlers.Get)
-	r.Put("/todos/{id}", handlers.Update)
-	r.Delete("/todos/{id}", handlers.Delete)
+	r.Route("/api/v1", func(r chi.Router) {
+
+		// ----------------------
+		// Health Check
+		// ----------------------
+		r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+			log.Println("PING HIT")
+
+			err := db.DB.Ping()
+
+			w.Header().Set("Content-Type", "application/json")
+
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte(`{"status":"error","database":"down"}`))
+				return
+			}
+
+			w.WriteHeader(http.StatusOK)
+			w.Write([]byte(`{"status":"ok","database":"up"}`))
+		})
+
+		// ----------------------
+		// Task API Endpoints
+		// ----------------------
+		r.Post("/todos", handlers.Create)
+		r.Get("/todos", handlers.List)
+		r.Get("/todos/{id}", handlers.Get)
+		r.Put("/todos/{id}", handlers.Update)
+		r.Delete("/todos/{id}", handlers.Delete)
+	})
 
 	addr := fmt.Sprintf(":%s", configs.GetServerPort())
 

@@ -7,12 +7,12 @@ import (
 func Update(id int64, todo Todo) (int64, error) {
 
 	result, err := db.DB.Exec(`
-		UPDATE tasks.todo
-		SET title = $1,
-		    description = $2,
-		    done = $3
-		WHERE id = $4
-	`,
+			   UPDATE tasks.todos
+			   SET title = $1,
+				   description = $2,
+				   done = $3
+			   WHERE id = $4
+	   `,
 		todo.Title,
 		todo.Description,
 		todo.Done,

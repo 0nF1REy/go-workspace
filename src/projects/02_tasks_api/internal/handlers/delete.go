@@ -3,17 +3,17 @@ package handlers
 import (
 	"net/http"
 	"strconv"
-	"strings"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/models"
 )
 
 func Delete(w http.ResponseWriter, r *http.Request) {
 
-	idParam := strings.TrimPrefix(r.URL.Path, "/todos/")
+	idParam := chi.URLParam(r, "id")
 	id, err := strconv.ParseInt(idParam, 10, 64)
 	if err != nil {
-		http.Error(w, "invalid id", http.StatusBadRequest)
+		http.Error(w, "id inválido", http.StatusBadRequest)
 		return
 	}
 
@@ -24,7 +24,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rows == 0 {
-		http.Error(w, "todo not found", http.StatusNotFound)
+		http.Error(w, "todo não encontrado", http.StatusNotFound)
 		return
 	}
 

@@ -7,7 +7,7 @@ import (
 func Insert(todo Todo) (id int64, err error) {
 
 	sql := `
-	INSERT INTO tasks.todo (title, description, done)
+	INSERT INTO tasks.todos (title, description, done)
 	VALUES ($1, $2, $3)
 	RETURNING id
 `

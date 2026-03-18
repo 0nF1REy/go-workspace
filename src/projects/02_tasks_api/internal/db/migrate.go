@@ -18,7 +18,10 @@ func RunMigrations(db *sql.DB) error {
 	}
 	migrationPath := "file://" + migrationsDir
 
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
+    driver, err := postgres.WithInstance(db, &postgres.Config{
+        MigrationsTable: "tasks_schema_migrations",
+    })
+
 	if err != nil {
 		return fmt.Errorf("failed to create migration driver: %w", err)
 	}

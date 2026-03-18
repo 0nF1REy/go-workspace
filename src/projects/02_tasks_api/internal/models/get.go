@@ -7,10 +7,10 @@ import (
 func Get(id int64) (todo Todo, err error) {
 
 	row := db.DB.QueryRow(`
-	SELECT id, title, description, done FROM tasks.todo
-	FROM todos
-	WHERE id = $1
-`, id)
+		       SELECT id, title, description, done
+		       FROM tasks.todos
+		       WHERE id = $1
+	       `, id)
 
 	err = row.Scan(
 		&todo.ID,
