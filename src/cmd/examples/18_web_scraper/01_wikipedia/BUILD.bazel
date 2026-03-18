@@ -3,7 +3,7 @@ load("@rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "01_wikipedia_lib",
     srcs = ["main.go"],
-    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/19_web_scraper/01_wikipedia",
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/18_web_scraper/01_wikipedia",
     visibility = ["//visibility:private"],
     deps = ["@com_github_gocolly_colly_v2//:colly"],
 )

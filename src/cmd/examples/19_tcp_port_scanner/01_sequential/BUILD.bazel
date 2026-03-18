@@ -1,14 +1,14 @@
 load("@rules_go//go:def.bzl", "go_binary", "go_library")
 
 go_library(
-    name = "02_concurrent_lib",
+    name = "01_sequential_lib",
     srcs = ["main.go"],
-    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/20_tcp_port_scanner/02_concurrent",
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/19_tcp_port_scanner/01_sequential",
     visibility = ["//visibility:private"],
 )
 
 go_binary(
-    name = "02_concurrent",
-    embed = [":02_concurrent_lib"],
+    name = "01_sequential",
+    embed = [":01_sequential_lib"],
     visibility = ["//visibility:public"],
 )

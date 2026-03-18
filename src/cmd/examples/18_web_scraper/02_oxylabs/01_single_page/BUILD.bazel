@@ -6,7 +6,7 @@ go_library(
         "export_csv.go",
         "main.go",
     ],
-    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/19_web_scraper/02_oxylabs/01_single_page",
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/18_web_scraper/02_oxylabs/01_single_page",
     visibility = ["//visibility:private"],
     deps = ["@com_github_gocolly_colly_v2//:colly"],
 )
