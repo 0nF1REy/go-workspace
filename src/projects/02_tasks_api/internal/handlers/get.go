@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"github.com/go-chi/chi/v5"
 	"github.com/0nF1REy/go-workspace/projects/02_tasks_api/internal/models"
+	"github.com/go-chi/chi/v5"
 )
 
 func Get(w http.ResponseWriter, r *http.Request) {
@@ -20,6 +21,10 @@ func Get(w http.ResponseWriter, r *http.Request) {
 
 	todo, err := models.Get(id)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			http.Error(w, "todo não encontrado", http.StatusNotFound)
+			return
+		}
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
