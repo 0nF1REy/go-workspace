@@ -33,12 +33,26 @@ func NewPlayer(game *Game) *Player {
 
 func (p *Player) Update() {
 	speed := 6.0
+	// Obtemos a largura da imagem do player para o cálculo do limite direito
+	playerWidth := float64(p.image.Bounds().Dx())
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
 		p.position.X -= speed
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		p.position.X += speed
 	}
+
+	// --- LIMITES DA TELA ---
+	// Impede de sair pela esquerda (X < 0)
+	if p.position.X < 0 {
+		p.position.X = 0
+	}
+
+	// Impede de sair pela direita (X + largura do player > largura da tela)
+	if p.position.X > screenWidth-playerWidth {
+		p.position.X = screenWidth - playerWidth
+	}
+	// -----------------------
 
 	p.laserLoadingTimer.Update()
 	if ebiten.IsKeyPressed(ebiten.KeySpace) && p.laserLoadingTimer.IsReady() {
