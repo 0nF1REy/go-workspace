@@ -1,0 +1,18 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "01_space_game_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/games/01_space_game",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//games/01_space_game/src",
+        "@com_github_hajimehoshi_ebiten_v2//:ebiten",
+    ],
+)
+
+go_binary(
+    name = "01_space_game",
+    embed = [":01_space_game_lib"],
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,21 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "src",
+    srcs = [
+        "game.go",
+        "laser.go",
+        "meteor.go",
+        "player.go",
+        "star.go",
+        "timer.go",
+        "utils.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/games/01_space_game/src",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//games/01_space_game/assets",
+        "@com_github_hajimehoshi_ebiten_v2//:ebiten",
+        "@com_github_hajimehoshi_ebiten_v2//text/v2:text",
+    ],
+)
