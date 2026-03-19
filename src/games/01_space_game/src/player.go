@@ -67,3 +67,12 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	// Desenha imagem na tela
 	screen.DrawImage(p.image, op)
 }
+
+func (p *Player) Collider() Rect {
+	bounds := p.image.Bounds()
+
+	return NewRect(p.position.X,
+		p.position.Y,
+		float64(bounds.Dx()),
+		float64(bounds.Dy()))
+}
