@@ -2,8 +2,11 @@ package src
 
 import (
 	"fmt"
+	"image/color"
 
+	"github.com/0nF1REy/go-workspace/games/01_space_game/assets"
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 )
 
 type Game struct {
@@ -11,6 +14,7 @@ type Game struct {
 	lasers           []*Laser
 	meteors          []*Meteor
 	meteorSpawnTimer *Timer
+	score            int
 }
 
 func NewGame() *Game {
@@ -76,6 +80,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for _, m := range g.meteors {
 		m.Draw(screen)
 	}
+
+	op := &text.DrawOptions{}
+	op.GeoM.Translate(20, 100)
+	op.ColorScale.ScaleWithColor(color.White)
+
+	text.Draw(screen, fmt.Sprintf("Pontos: %d", g.score), assets.FontUi, op)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -91,4 +101,5 @@ func (g *Game) Reset() {
 	g.meteors = nil
 	g.lasers = nil
 	g.meteorSpawnTimer.Reset()
+	g.score = 0
 }
