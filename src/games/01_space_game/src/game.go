@@ -17,6 +17,7 @@ func NewGame() *Game {
 // Roda em 60 FPS
 // Responsável por atualizar a lógica do jogo
 // 60 X por segundo
+// 1 x rodando
 func (g *Game) Update() error {
 	g.player.Update()
 
