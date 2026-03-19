@@ -56,11 +56,17 @@ func (g *Game) Update() error {
 		}
 	}
 
-	for i, m := range g.meteors {
-		for j, l := range g.lasers {
+	for i := len(g.meteors) - 1; i >= 0; i-- {
+		m := g.meteors[i]
+
+		for j := len(g.lasers) - 1; j >= 0; j-- {
+			l := g.lasers[j]
+
 			if m.Collider().Intersects(l.Collider()) {
 				g.meteors = append(g.meteors[:i], g.meteors[i+1:]...)
 				g.lasers = append(g.lasers[:j], g.lasers[j+1:]...)
+				g.score++
+				break
 			}
 		}
 	}
