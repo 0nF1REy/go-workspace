@@ -6,13 +6,24 @@ import (
 )
 
 type Player struct {
-	image *ebiten.Image
+	image    *ebiten.Image
+	position Vector
 }
 
 func NewPlayer() *Player {
 	image := assets.PlayerSprite
+
+	bounds := image.Bounds()
+	halfW := float64(bounds.Dx()) / 2
+
+	position := Vector{
+		X: (screenWidth / 2) - halfW,
+		Y: 500,
+	}
+
 	return &Player{
-		image: image,
+		image:    image,
+		position: position,
 	}
 }
 
@@ -24,7 +35,7 @@ func (p *Player) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 
 	// Posição X e Y que a imagem será desenhada na tela
-	op.GeoM.Translate(100, 100)
+	op.GeoM.Translate(p.position.X, p.position.Y)
 
 	// Desenha imagem na tela
 	screen.DrawImage(p.image, op)
