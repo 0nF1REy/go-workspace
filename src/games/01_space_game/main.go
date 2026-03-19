@@ -1,3 +1,5 @@
+// ⚠️ Veja README.md para instruções sobre GPUs antigas / OpenGL
+
 package main
 
 import (
