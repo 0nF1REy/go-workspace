@@ -1,0 +1,28 @@
+# Etapa 1: build
+FROM golang:1.20-alpine AS builder
+WORKDIR /app
+
+# Instala dependências básicas caso precise (opcional)
+RUN apk add --no-cache ca-certificates
+
+# Copia o código
+COPY . .
+
+# Build estático sem CGO
+RUN CGO_ENABLED=0 GOOS=linux go build -o api main.go
+
+# Etapa 2: container final usando Alpine
+FROM alpine:3.20
+WORKDIR /app
+
+# Instala certificados SSL (necessário se usar HTTPS)
+RUN apk add --no-cache ca-certificates
+
+# Copia o binário
+COPY --from=builder /app/api .
+
+# Expõe a porta 8000
+EXPOSE 8000
+
+# Comando de entrada
+ENTRYPOINT ["./api"]
