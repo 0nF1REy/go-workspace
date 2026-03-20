@@ -1,4 +1,5 @@
-// ⚠️ Veja README.md para instruções sobre GPUs antigas / OpenGL
+// Problemas com GPUs antigas / OpenGL?
+// Consulte: docs/guides/OPENGL_TROUBLESHOOTING.md
 
 package main
 
