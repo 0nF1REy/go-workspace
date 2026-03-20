@@ -65,6 +65,10 @@ func GetExamples() []ExampleInfo {
 		// 14_concurrency
 		{"Concurrency Goroutines", "14_concurrency/01_goroutines"},
 		{"Concurrency Starvation", "14_concurrency/02_goroutine_starvation"},
+		{"Restaurant Sequential", "14_concurrency/03_restaurant/01_sequential"},
+		{"Restaurant Concurrent", "14_concurrency/03_restaurant/02_concurrent"},
+		{"Downloads Sequential", "14_concurrency/04_downloads/01_sequential"},
+		{"Downloads Concurrent", "14_concurrency/04_downloads/02_concurrent"},
 
 		// 15_channels
 		{"Channels Hello", "15_channels/01_hello_channel"},
@@ -90,6 +94,10 @@ func GetExamples() []ExampleInfo {
 		// 19_tcp_port_scanner
 		{"TCP Port Scanner Sequential", "19_tcp_port_scanner/01_sequential"},
 		{"TCP Port Scanner Concurrent", "19_tcp_port_scanner/02_concurrent"},
+
+		// 20_http_checker
+		{"HTTP Checker Sequential", "20_http_checker/01_sequential"},
+		{"HTTP Checker Concurrent", "20_http_checker/02_concurrent"},
 	}
 
 	root := os.Getenv("EXAMPLES_ROOT")
