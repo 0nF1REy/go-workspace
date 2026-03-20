@@ -1,0 +1,14 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "02_concurrent_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/cmd/examples/14_concurrency/03_restaurant/02_concurrent",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "02_concurrent",
+    embed = [":02_concurrent_lib"],
+    visibility = ["//visibility:public"],
+)
