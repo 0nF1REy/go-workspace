@@ -1,0 +1,14 @@
+load("@rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "02_number_guessing_game_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/games/02_number_guessing_game",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "02_number_guessing_game",
+    embed = [":02_number_guessing_game_lib"],
+    visibility = ["//visibility:public"],
+)
