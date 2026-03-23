@@ -1,0 +1,13 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "checker",
+    srcs = [
+        "checker.go",
+        "monitor.go",
+        "runner.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/services/bubble_tea/01_health_checker/internal/checker",
+    visibility = ["//services/bubble_tea/01_health_checker:__subpackages__"],
+    deps = ["//services/bubble_tea/01_health_checker/internal/model"],
+)

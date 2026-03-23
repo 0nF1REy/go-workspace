@@ -1,0 +1,20 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "tui",
+    srcs = [
+        "app.go",
+        "model.go",
+        "styles.go",
+        "update.go",
+        "view.go",
+    ],
+    importpath = "github.com/0nF1REy/go-workspace/services/bubble_tea/01_health_checker/internal/tui",
+    visibility = ["//services/bubble_tea/01_health_checker:__subpackages__"],
+    deps = [
+        "//services/bubble_tea/01_health_checker/internal/model",
+        "@com_github_charmbracelet_lipgloss//:lipgloss",
+        "@com_github_guptarohit_asciigraph//:asciigraph",
+        "@land_charm_bubbletea_v2//:bubbletea",
+    ],
+)

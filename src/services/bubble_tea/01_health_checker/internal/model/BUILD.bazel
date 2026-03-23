@@ -1,0 +1,8 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "model",
+    srcs = ["result.go"],
+    importpath = "github.com/0nF1REy/go-workspace/services/bubble_tea/01_health_checker/internal/model",
+    visibility = ["//services/bubble_tea/01_health_checker:__subpackages__"],
+)

@@ -1,0 +1,12 @@
+load("@rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "cmd",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/services/bubble_tea/01_health_checker/cmd",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//services/bubble_tea/01_health_checker/internal/checker",
+        "//services/bubble_tea/01_health_checker/internal/tui",
+    ],
+)
