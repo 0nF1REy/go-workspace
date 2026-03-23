@@ -9,6 +9,13 @@ go_library(
 
 go_binary(
     name = "01_ping_api",
-    embed = [":01_ping_api_lib"],
+    embed = [":01_ping_lib"],
     visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "01_ping_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/0nF1REy/go-workspace/services/api/01_ping",
+    visibility = ["//visibility:private"],
 )
