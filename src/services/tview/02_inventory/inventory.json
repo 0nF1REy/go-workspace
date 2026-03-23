@@ -1,0 +1,54 @@
+[
+  {
+    "name": "Espada de Madeira do Gintoki",
+    "stock": 12
+  },
+  {
+    "name": "Parfait de Morango do Gintoki",
+    "stock": 25
+  },
+  {
+    "name": "Uniforme Yorozuya",
+    "stock": 10
+  },
+  {
+    "name": "Guarda-chuva da Kagura",
+    "stock": 8
+  },
+  {
+    "name": "Óculos do Shinpachi",
+    "stock": 20
+  },
+  {
+    "name": "Maionese do Hijikata",
+    "stock": 18
+  },
+  {
+    "name": "Bazuca da Kagura",
+    "stock": 5
+  },
+  {
+    "name": "Roupa do Shinsengumi",
+    "stock": 9
+  },
+  {
+    "name": "Revista Jump (edição Gintama)",
+    "stock": 14
+  },
+  {
+    "name": "Figura do Elizabeth",
+    "stock": 7
+  },
+  {
+    "name": "Patinete do Sadaharu",
+    "stock": 6
+  },
+  {
+    "name": "Cartaz do Gintoki",
+    "stock": 11
+  },
+  {
+    "name": "DVD Box Gintama",
+    "stock": 4
+  }
+]
