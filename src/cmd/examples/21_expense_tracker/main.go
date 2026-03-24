@@ -95,7 +95,8 @@ func (bt BudgetTracker) SaveToCSV(filename string) error {
 }
 
 func main() {
-	// bt := BudgetTracker()
+	bt := BudgetTracker{}
+
 	for {
 		fmt.Println("\n=== Controle Financeiro ===")
 		fmt.Println("1. Adicionar transação")
@@ -105,5 +106,53 @@ func main() {
 		fmt.Println("5. Salvar em CSV")
 		fmt.Println("6. Sair")
 		fmt.Println("Escolha uma opção:")
+
+		var choice int
+		fmt.Scanln(&choice)
+
+		switch choice {
+		case 1:
+			var amount float64
+			var category, tType string
+
+			fmt.Print("Digite o valor: ")
+			fmt.Scanln(&amount)
+
+			fmt.Print("Digite a categoria (ex: alimentação, transporte, salário): ")
+			fmt.Scanln(&category)
+
+			fmt.Print("Digite o tipo (receita/despesa): ")
+			fmt.Scanln(&tType)
+
+			bt.AddTransaction(amount, category, tType)
+
+		case 2:
+			bt.DisplayTransactions()
+
+		case 3:
+			total := bt.CalculateTotal("receita")
+			fmt.Println("Total de receitas:", total)
+
+		case 4:
+			total := bt.CalculateTotal("despesa")
+			fmt.Println("Total de despesas:", total)
+
+		case 5:
+			var filename string
+			fmt.Print("Digite o nome do arquivo: ")
+			fmt.Scanln(&filename)
+
+			err := bt.SaveToCSV(filename)
+			if err != nil {
+				fmt.Println("Erro ao salvar:", err)
+			}
+
+		case 6:
+			fmt.Println("Saindo...")
+			return
+
+		default:
+			fmt.Println("Opção inválida!")
+		}
 	}
 }
