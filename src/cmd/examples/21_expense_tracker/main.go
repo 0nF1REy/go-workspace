@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
 	"fmt"
 	"os"
@@ -113,6 +114,7 @@ func (bt BudgetTracker) SaveToCSV(filename string) error {
 
 func main() {
 	bt := BudgetTracker{}
+	reader := bufio.NewReader(os.Stdin)
 
 	for {
 		fmt.Println("\n=== Controle Financeiro ===")
@@ -124,8 +126,10 @@ func main() {
 		fmt.Println("6. Sair")
 		fmt.Println("Escolha uma opção:")
 
-		var choice int
-		_, err := fmt.Scanln(&choice)
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSpace(input)
+
+		choice, err := strconv.Atoi(input)
 		if err != nil {
 			fmt.Println("Entrada inválida!")
 			continue
@@ -133,26 +137,28 @@ func main() {
 
 		switch choice {
 		case 1:
-			var amount float64
-			var category, tType string
-
 			fmt.Print("Digite o valor: ")
-			_, err := fmt.Scanln(&amount)
+			input, _ := reader.ReadString('\n')
+			input = strings.TrimSpace(input)
+
+			amount, err := strconv.ParseFloat(input, 64)
 			if err != nil {
 				fmt.Println("Valor inválido!")
 				continue
 			}
 
 			fmt.Print("Digite a categoria (ex: alimentação, transporte, salário): ")
-			fmt.Scanln(&category)
+			category, _ := reader.ReadString('\n')
+			category = strings.TrimSpace(category)
+
 			if category == "" {
 				fmt.Println("Categoria inválida!")
 				continue
 			}
 
 			fmt.Print("Digite o tipo (receita/despesa): ")
-			fmt.Scanln(&tType)
-			tType = strings.ToLower(tType)
+			tType, _ := reader.ReadString('\n')
+			tType = strings.TrimSpace(strings.ToLower(tType))
 
 			if tType != "receita" && tType != "despesa" {
 				fmt.Println("Tipo inválido!")
@@ -173,9 +179,9 @@ func main() {
 			fmt.Printf("Total de despesas: R$ %.2f\n", total)
 
 		case 5:
-			var filename string
 			fmt.Print("Digite o nome do arquivo: ")
-			fmt.Scanln(&filename)
+			filename, _ := reader.ReadString('\n')
+			filename = strings.TrimSpace(filename)
 
 			err := bt.SaveToCSV(filename)
 			if err != nil {
