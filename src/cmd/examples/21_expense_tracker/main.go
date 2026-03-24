@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -47,6 +48,11 @@ func (bt *BudgetTracker) AddTransaction(amount float64, category, tType string) 
 }
 
 func (bt BudgetTracker) DisplayTransactions() {
+	if len(bt.transactions) == 0 {
+		fmt.Println("Nenhuma transação cadastrada.")
+		return
+	}
+
 	fmt.Println("ID\tValor\tCategoria\tData\tTipo")
 	for _, transaction := range bt.transactions {
 		fmt.Printf("%d\t%.2f\t%s\t%s\t%s\n",
@@ -70,15 +76,23 @@ func (bt BudgetTracker) CalculateTotal(tType string) float64 {
 }
 
 func (bt BudgetTracker) SaveToCSV(filename string) error {
+	if len(bt.transactions) == 0 {
+		fmt.Println("Nenhuma transação para salvar.")
+		return nil
+	}
+
 	file, err := os.Create(filename)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
+
 	writer := csv.NewWriter(file)
 	defer writer.Flush()
 
-	writer.Write([]string{"ID", "Valor", "Categoria", "Data", "Tipo"})
+	if err := writer.Write([]string{"ID", "Valor", "Categoria", "Data", "Tipo"}); err != nil {
+		return err
+	}
 
 	for _, t := range bt.transactions {
 		record := []string{
@@ -88,8 +102,11 @@ func (bt BudgetTracker) SaveToCSV(filename string) error {
 			t.Date.Format("02/01/2006 15:04"),
 			t.Type,
 		}
-		writer.Write(record)
+		if err := writer.Write(record); err != nil {
+			return err
+		}
 	}
+
 	fmt.Println("Transações salvas em", filename)
 	return nil
 }
@@ -108,7 +125,11 @@ func main() {
 		fmt.Println("Escolha uma opção:")
 
 		var choice int
-		fmt.Scanln(&choice)
+		_, err := fmt.Scanln(&choice)
+		if err != nil {
+			fmt.Println("Entrada inválida!")
+			continue
+		}
 
 		switch choice {
 		case 1:
@@ -116,13 +137,27 @@ func main() {
 			var category, tType string
 
 			fmt.Print("Digite o valor: ")
-			fmt.Scanln(&amount)
+			_, err := fmt.Scanln(&amount)
+			if err != nil {
+				fmt.Println("Valor inválido!")
+				continue
+			}
 
 			fmt.Print("Digite a categoria (ex: alimentação, transporte, salário): ")
 			fmt.Scanln(&category)
+			if category == "" {
+				fmt.Println("Categoria inválida!")
+				continue
+			}
 
 			fmt.Print("Digite o tipo (receita/despesa): ")
 			fmt.Scanln(&tType)
+			tType = strings.ToLower(tType)
+
+			if tType != "receita" && tType != "despesa" {
+				fmt.Println("Tipo inválido!")
+				continue
+			}
 
 			bt.AddTransaction(amount, category, tType)
 
@@ -131,11 +166,11 @@ func main() {
 
 		case 3:
 			total := bt.CalculateTotal("receita")
-			fmt.Println("Total de receitas:", total)
+			fmt.Printf("Total de receitas: R$ %.2f\n", total)
 
 		case 4:
 			total := bt.CalculateTotal("despesa")
-			fmt.Println("Total de despesas:", total)
+			fmt.Printf("Total de despesas: R$ %.2f\n", total)
 
 		case 5:
 			var filename string
